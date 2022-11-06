@@ -1,7 +1,7 @@
 package com.jiushi.gateway.component;
 
-import cn.gathub.gateway.api.CommonResult;
 import cn.hutool.json.JSONUtil;
+import com.jiushi.gateway.api.CommonResult;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

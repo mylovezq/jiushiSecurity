@@ -1,6 +1,6 @@
 package com.jiushi.gateway.filter;
 
-import cn.gathub.gateway.config.IgnoreUrlsConfig;
+import com.jiushi.gateway.config.IgnoreUrlsConfig;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
