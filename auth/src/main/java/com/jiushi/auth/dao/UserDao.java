@@ -2,6 +2,7 @@ package com.jiushi.auth.dao;
 
 import com.jiushi.auth.model.PermissionDto;
 import com.jiushi.auth.model.UserDto;
+import com.jiushi.auth.model.entity.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,10 +22,10 @@ public class UserDao {
     JdbcTemplate jdbcTemplate;
 
     //根据账号查询用户信息
-    public UserDto getUserByUsername(String username){
+    public UserDO getUserByUsername(String username){
         String sql = "select id,username,password,fullname,mobile from t_user where username = ?";
         //连接数据库查询用户
-        List<UserDto> list = jdbcTemplate.query(sql, new Object[]{username}, new BeanPropertyRowMapper<>(UserDto.class));
+        List<UserDO> list = jdbcTemplate.query(sql, new Object[]{username}, new BeanPropertyRowMapper<>(UserDO.class));
         if(list !=null && list.size()==1){
             return list.get(0);
         }
@@ -32,7 +33,7 @@ public class UserDao {
     }
 
     //根据用户id查询用户权限
-    public List<String> findPermissionsByUserId(String userId){
+    public List<String> findPermissionsByUserId(Long userId){
         String sql = "SELECT * FROM t_permission WHERE id IN(\n" +
                 "\n" +
                 "SELECT permission_id FROM t_role_permission WHERE role_id IN(\n" +
