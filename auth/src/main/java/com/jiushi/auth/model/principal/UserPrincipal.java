@@ -35,6 +35,8 @@ public class UserPrincipal implements UserDetails {
    * 用户状态
    */
   private Boolean enabled;
+
+  private String mobile;
   /**
    * 权限数据
    */
@@ -45,6 +47,7 @@ public class UserPrincipal implements UserDetails {
     this.setUsername(user.getUsername());
     this.setPassword(user.getPassword());
     this.setEnabled(true);
+    this.setMobile(user.getMobile());
     if (user.getRoles() != null) {
       authorities = new ArrayList<>();
       user.getRoles().forEach(item -> authorities.add(new SimpleGrantedAuthority(item)));

@@ -1,14 +1,10 @@
 package com.jiushi.auth.service.impl;
 
-import com.alibaba.fastjson.JSON;
-
 import com.jiushi.auth.constant.MessageConstant;
 import com.jiushi.auth.dao.UserDao;
-import com.jiushi.auth.model.UserDto;
 import com.jiushi.auth.model.entity.UserDO;
 import com.jiushi.auth.model.principal.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

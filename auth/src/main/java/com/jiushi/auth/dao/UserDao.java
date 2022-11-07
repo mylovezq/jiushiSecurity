@@ -34,16 +34,11 @@ public class UserDao {
 
     //根据用户id查询用户权限
     public List<String> findPermissionsByUserId(Long userId){
-        String sql = "SELECT * FROM t_permission WHERE id IN(\n" +
-                "\n" +
-                "SELECT permission_id FROM t_role_permission WHERE role_id IN(\n" +
-                "  SELECT role_id FROM t_user_role WHERE user_id = ? \n" +
-                ")\n" +
-                ")\n";
+        String sql = "SELECT tp.url,tr.role_name FROM t_permission  tp JOIN  t_role_permission trp ON tp.id = trp.permission_id JOIN t_role tr on trp.role_id = tr.id JOIN t_user tur on  tur.id = tr.id WHERE tur.id = ?";
 
         List<PermissionDto> list = jdbcTemplate.query(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(PermissionDto.class));
         List<String> permissions = new ArrayList<>();
-        list.forEach(c -> permissions.add(c.getCode()));
+        list.forEach(c -> permissions.add(c.getRoleName()));
         return permissions;
     }
 }

@@ -1,10 +1,13 @@
 package com.jiushi.order.controller;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.json.JSONObject;
 import com.jiushi.order.model.UserDTO;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author my deng
@@ -13,19 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OrderController {
 
-    @PreAuthorize("hasAuthority('p1')")
-    @GetMapping(value = "/r1")
+    @GetMapping(value = "/hello")
     public String r1(){
-        UserDTO user = (UserDTO)
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getUsername() + "访问资源1";
+      return "hello 邓明阳";
     }
-    @PreAuthorize("hasAuthority('p2')")
-    @GetMapping(value = "/r2")
-    public String r2(){//通过Spring Security API获取当前登录用户
-        UserDTO user =
-                (UserDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getUsername() + "访问资源2";
+
+    @GetMapping("/currentUser")
+    public UserDTO currentUser(HttpServletRequest request) {
+        // 从Header中获取用户信息
+        String userStr = request.getHeader("user");
+        JSONObject userJsonObject = new JSONObject(userStr);
+        return UserDTO.builder()
+                .username(userJsonObject.getStr("user_name"))
+                .id(Convert.toLong(userJsonObject.get("id")))
+                .mobile(userJsonObject.getStr("mobile"))
+                .roles(Convert.toList(String.class, userJsonObject.get("authorities"))).build();
     }
 
 }

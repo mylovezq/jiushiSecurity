@@ -21,7 +21,7 @@ public class MyJwtAccessTokenConfig extends JwtAccessTokenConverter {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = new DefaultOAuth2AccessToken(accessToken);
         UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
         // 将用户信息添加到token额外信息中
-        defaultOAuth2AccessToken.getAdditionalInformation().put("password", user.getPassword());
+        defaultOAuth2AccessToken.getAdditionalInformation().put("mobile", user.getMobile());
         return super.enhance(defaultOAuth2AccessToken, authentication);
     }
 }
