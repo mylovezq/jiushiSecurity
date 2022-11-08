@@ -1,4 +1,4 @@
-package model;
+package com.jiushi.core.common.model;
 
 import lombok.Data;
 

@@ -1,9 +1,8 @@
-package context;
+package com.jiushi.core.common.context;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
-import model.PayloadDto;
-import model.UserDto;
+import com.jiushi.core.common.model.PayloadDto;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -14,8 +13,6 @@ import java.util.Objects;
 
 /**
  * 请求头认证用户
- *
- * @author Yin Dongping
  */
 @Component
 public class AuthUserContext {

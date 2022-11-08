@@ -7,18 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="common" />
+        <module name="core-common" />
         <module name="auth" />
         <module name="gateway" />
+        <module name="micro-common" />
         <module name="order" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="auth" target="1.8" />
       <module name="auth-center" target="1.8" />
-      <module name="common" target="1.8" />
+      <module name="commons" target="1.8" />
+      <module name="core-common" target="1.8" />
       <module name="gateway" target="1.8" />
       <module name="jiushiSecurity" target="1.8" />
+      <module name="micro-common" target="1.8" />
       <module name="order" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -26,8 +29,10 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="auth" options="-parameters" />
       <module name="auth-center" options="-parameters" />
-      <module name="common" options="-parameters" />
+      <module name="commons" options="-parameters" />
+      <module name="core-common" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="micro-common" options="-parameters" />
       <module name="order" options="-parameters" />
     </option>
   </component>

@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.jiushi</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>core-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>

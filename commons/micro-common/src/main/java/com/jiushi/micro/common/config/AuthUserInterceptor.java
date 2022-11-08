@@ -1,19 +1,15 @@
-package com.jiushi.order.config;
+package com.jiushi.micro.common.config;
 
 import com.alibaba.fastjson.JSONObject;
-
-import context.AuthUserContext;
-import model.PayloadDto;
-import model.UserDto;
+import com.jiushi.core.common.context.AuthUserContext;
+import com.jiushi.core.common.model.PayloadDto;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 认证用户拦截器
@@ -35,9 +31,7 @@ public class AuthUserInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String dtoString = request.getHeader("user");
         if (StringUtils.hasText(dtoString)) {
-            byte[] bytes = Base64Utils.decodeFromString(dtoString);
-            String jsonString = new String(bytes, StandardCharsets.UTF_8);
-            PayloadDto payloadDto = JSONObject.parseObject(jsonString, PayloadDto.class);
+            PayloadDto payloadDto = JSONObject.parseObject(dtoString, PayloadDto.class);
             AuthUserContext.setJwtPayload(payloadDto);
         }
         return true;

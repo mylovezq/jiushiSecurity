@@ -1,4 +1,4 @@
-package model;
+package com.jiushi.core.common.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -15,7 +15,6 @@ public class PayloadDto implements Serializable {
     /**
      * 用户ID
      */
-    @JsonProperty(value = "id")
     private String userId;
     private List<String> scope;
     private Boolean active;
