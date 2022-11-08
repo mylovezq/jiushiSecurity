@@ -4,6 +4,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.json.JSONObject;
 import com.jiushi.order.model.UserDTO;
 
+import context.AuthUserContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,13 +25,10 @@ public class OrderController {
     @GetMapping("/currentUser")
     public UserDTO currentUser(HttpServletRequest request) {
         // 从Header中获取用户信息
-        String userStr = request.getHeader("user");
-        JSONObject userJsonObject = new JSONObject(userStr);
-        return UserDTO.builder()
-                .username(userJsonObject.getStr("user_name"))
-                .id(Convert.toLong(userJsonObject.get("id")))
-                .mobile(userJsonObject.getStr("mobile"))
-                .roles(Convert.toList(String.class, userJsonObject.get("authorities"))).build();
+        System.out.println(AuthUserContext.getJwtPayload());
+        System.out.println(AuthUserContext.getUserId());
+        return null;
+
     }
 
 }

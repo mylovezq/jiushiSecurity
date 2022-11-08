@@ -119,7 +119,4 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         ;
     }
 
-    public static void main(String[] args) {
-
-    }
 }

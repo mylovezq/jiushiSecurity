@@ -1,4 +1,4 @@
-package config;
+package com.jiushi.order.config;
 
 import com.alibaba.fastjson.JSONObject;
 
