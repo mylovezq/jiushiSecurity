@@ -18,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 /**
  * 认证用户拦截器
  *
- * @author Dongping Yin
  */
 @Component
 public class AuthUserInterceptor implements HandlerInterceptor {
