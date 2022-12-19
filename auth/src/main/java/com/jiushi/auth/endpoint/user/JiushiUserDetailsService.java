@@ -1,9 +1,9 @@
-package com.jiushi.auth.service.impl;
+package com.jiushi.auth.endpoint.user;
 
 import com.jiushi.auth.constant.MessageConstant;
 import com.jiushi.auth.dao.UserDao;
 import com.jiushi.auth.model.entity.UserDO;
-import com.jiushi.auth.model.principal.UserPrincipal;
+import com.jiushi.auth.model.principal.JiushiUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,7 +36,7 @@ public class JiushiUserDetailsService implements UserDetailsService {
         //根据用户的id查询用户的权限
         List<String> permissions = userDao.findPermissionsByUserId(userDto.getId());
         userDto.setRoles(permissions);
-        UserPrincipal userDetails = new UserPrincipal(userDto);
+        JiushiUser userDetails = new JiushiUser(userDto);
         return userDetails;
     }
 }

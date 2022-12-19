@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/auth/auth.iml" filepath="$PROJECT_DIR$/auth/auth.iml" />
-      <module fileurl="file://$PROJECT_DIR$/common/commons.iml" filepath="$PROJECT_DIR$/common/commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commons/commons.iml" filepath="$PROJECT_DIR$/commons/commons.iml" />
       <module fileurl="file://$PROJECT_DIR$/commons/core-common/core-common.iml" filepath="$PROJECT_DIR$/commons/core-common/core-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/jiushiSecurity.iml" filepath="$PROJECT_DIR$/.idea/jiushiSecurity.iml" />

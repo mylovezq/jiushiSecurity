@@ -14,10 +14,10 @@ import java.util.Collection;
 /**
  * 登录用户信息
  *
- * @author Honghui [wanghonghui_work@163.com] 2021/3/16
+ * @author
  */
 @Data
-public class UserPrincipal implements UserDetails {
+public class JiushiUser implements UserDetails {
 
   /**
    * ID
@@ -42,7 +42,7 @@ public class UserPrincipal implements UserDetails {
    */
   private Collection<SimpleGrantedAuthority> authorities;
 
-  public UserPrincipal(UserDO user) {
+  public JiushiUser(UserDO user) {
     this.setId(user.getId());
     this.setUsername(user.getUsername());
     this.setPassword(user.getPassword());
@@ -53,7 +53,7 @@ public class UserPrincipal implements UserDetails {
       user.getRoles().forEach(item -> authorities.add(new SimpleGrantedAuthority(item)));
     }
   }
-  public UserPrincipal(){
+  public JiushiUser(){
 
   }
 

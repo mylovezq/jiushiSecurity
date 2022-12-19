@@ -1,12 +1,12 @@
 package com.jiushi.auth.config;
 
-import com.jiushi.auth.service.impl.JiushiUserDetailsService;
+import com.jiushi.auth.endpoint.user.JiushiUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -19,10 +19,8 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
-import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtAccessTokenConverter accessTokenConverter;
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -99,11 +97,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         service.setSupportRefreshToken(true);//
         service.setTokenStore(tokenStore);//令牌存储策略
         //令牌增强
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        List<TokenEnhancer> delegates = new ArrayList<>();
-        delegates.add(accessTokenConverter);
-        delegates.add(jwtTokenEnhancer);
-        tokenEnhancerChain.setTokenEnhancers(delegates);
+        TokenEnhancerChain tokenEnhancerChain = this.getTokenEnhancerChain();
         service.setTokenEnhancer(tokenEnhancerChain);
 
         service.setAccessTokenValiditySeconds(7200); // 令牌默认有效期2小时
@@ -111,6 +105,16 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         return service;
     }
 
+    private TokenEnhancerChain getTokenEnhancerChain() {
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+
+        List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
+        tokenEnhancers.add(jwtAccessTokenConverter);
+        tokenEnhancers.add(jwtTokenEnhancer);
+
+        tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
+        return tokenEnhancerChain;
+    }
 
 
     @Override
@@ -118,5 +122,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         security.allowFormAuthenticationForClients()				//表单认证（申请令牌）
         ;
     }
+
+
 
 }

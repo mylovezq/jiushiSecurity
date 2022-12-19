@@ -1,7 +1,7 @@
 package com.jiushi.auth.config;
 
 
-import com.jiushi.auth.model.principal.UserPrincipal;
+import com.jiushi.auth.model.principal.JiushiUser;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class JwtTokenEnhancer implements TokenEnhancer {
   @Override
   public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-    UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
+    JiushiUser user = (JiushiUser) authentication.getPrincipal();
     Map<String, Object> info = new HashMap<>();
     // 把用户ID设置到JWT中
     info.put("id", user.getId());
