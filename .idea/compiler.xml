@@ -29,7 +29,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="auth" options="-parameters" />
       <module name="auth-center" options="-parameters" />
-      <module name="commons" options="-parameters" />
+      <module name="commons" options="" />
       <module name="core-common" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="micro-common" options="-parameters" />
