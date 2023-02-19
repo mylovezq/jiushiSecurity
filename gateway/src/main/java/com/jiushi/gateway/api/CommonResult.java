@@ -3,7 +3,7 @@ package com.jiushi.gateway.api;
 /**
  * 通用返回对象
  *
- * @author Honghui [wanghonghui_work@163.com] 2021/3/16
+ * @author  [dengmingyang] 2021/3/16
  */
 public class CommonResult<T> {
   private long code;

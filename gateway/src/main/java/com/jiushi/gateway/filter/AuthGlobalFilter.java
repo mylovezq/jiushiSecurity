@@ -18,7 +18,7 @@ import java.text.ParseException;
 /**
  * 将登录用户的JWT转化成用户信息的全局过滤器
  *
- * @author Honghui [wanghonghui_work@163.com] 2021/3/16
+ * @author  [dengmingyang] 2021/3/16
  */
 @Component
 @Slf4j

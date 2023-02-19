@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * 登录用户信息
  *
- * @author Honghui [wanghonghui_work@163.com] 2021/3/19
+ * @author  [dengmingyang] 2021/3/19
  */
 @Data
 public class ClientPrincipal implements ClientDetails {

@@ -1,20 +1,26 @@
 package com.jiushi.auth.controller;
 
 
-import com.jiushi.auth.dao.Payload;
-import com.jiushi.auth.dao.UserInfo;
-//import com.jiushi.auth.util.JwtUtils;
-//import com.jiushi.auth.util.RsaUtils;
-//import org.springframework.beans.factory.annotation.Autowired;
+import com.jiushi.auth.constant.MessageConstant;
+import com.jiushi.auth.dao.UserDao;
+import com.jiushi.auth.model.Payload;
+import com.jiushi.auth.model.entity.UserDO;
+import com.jiushi.auth.model.principal.JiushiUser;
+import com.jiushi.auth.util.JwtUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.security.KeyPair;
-import java.security.PublicKey;
+import java.util.List;
 
 /**
  * @author my deng
@@ -29,25 +35,39 @@ public class TestAuth {
     private String name;
     @Value("${server.port}")
     private String port;
-//    @Resource
-//    private KeyPair keyPair;
-
+    @Resource
+    private KeyPair keyPair;
+    @Autowired
+    UserDao userDao;
+    @Autowired
+    DefaultTokenServices userDaow;
     @GetMapping("/add")
-    public String add() throws Exception {
+    public String add(){
+
+//将来连接数据库根据账号查询用户信息
+        UserDO userDto = userDao.getUserByUsername("zhangsan");
+        if(userDto == null){
+            //如果用户查不到，返回null，由provider来抛出异常
+            throw new UsernameNotFoundException(MessageConstant.USERNAME_PASSWORD_ERROR);
+
+        }
+        //根据用户的id查询用户的权限
+        List<String> permissions = userDao.findPermissionsByUserId(userDto.getId());
+        userDto.setRoles(permissions);
+
         // 获取私钥
+        // 生成token
+        String token = JwtUtils.generateTokenExpireInMinutes(new JiushiUser(userDto), keyPair.getPrivate(), 10);
+        System.out.println("token = " + token);
 
-//        // 生成token
-//        String token = JwtUtils.generateTokenExpireInMinutes(new UserInfo(1L, "zhangsan", "ROLE_ADMIN"), keyPair.getPrivate(), 5);
-//        System.out.println("token = " + token);
-//
-//        // 获取公钥
-//        // 解析token
-//        Payload<UserInfo> info = JwtUtils.getInfoFromToken(token, keyPair.getPublic(), UserInfo.class);
-//
-//        System.out.println("info.getExpiration() = " + info.getExpiration());
-//        System.out.println("info.getUserInfo() = " + info.getUserInfo());
-//        System.out.println("info.getId() = " + info.getId());
-       return "";
+        // 解析token
+        Payload<Object> info = JwtUtils.getInfoFromToken(token, keyPair.getPublic(), Object.class);
 
+        System.out.println("info.getExpiration() = " + info.getExpiration());
+        System.out.println("info.getUserInfo() = " + info.getUserInfo());
+        System.out.println("info.getId() = " + info.getId());
+
+
+        return "hello world" + name + port;
     }
 }

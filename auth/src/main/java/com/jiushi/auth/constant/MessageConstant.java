@@ -3,7 +3,7 @@ package com.jiushi.auth.constant;
 /**
  * 消息常量
  *
- * @author Honghui [wanghonghui_work@163.com] 2021/3/16
+ * @author  [dengmingyang] 2021/3/16
  */
 public class MessageConstant {
 

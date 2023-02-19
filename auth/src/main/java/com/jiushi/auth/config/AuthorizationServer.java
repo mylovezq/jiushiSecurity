@@ -1,12 +1,12 @@
 package com.jiushi.auth.config;
 
-import com.jiushi.auth.config.jwt.token.JwtTokenEnhancer;
-import com.jiushi.auth.service.impl.JiushiUserDetailsService;
+import com.jiushi.auth.endpoint.user.JiushiUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -51,22 +51,24 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
     private JwtTokenEnhancer jwtTokenEnhancer;
 
-    @Autowired
-    private DataSource dataSource;
 
-
-    /**
-     * 配置OAuth2的客户端信息：clientId、client_secret、authorization_type、redirect_url等。
-     * 实际保存在数据库中,建表语句在resource下data中
-     * @param clients
-     * @throws Exception
-     */
+    //客户端详情服务
     @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+    public void configure(ClientDetailsServiceConfigurer clients)
+            throws Exception {
         clients.withClientDetails(clientDetailsService);
-        //clients.jdbc(dataSource);
+    }
+
+    //将客户端信息存储到数据库
+    @Bean
+    public ClientDetailsService clientDetailsService(DataSource dataSource) {
+        ClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
+        ((JdbcClientDetailsService) clientDetailsService).setPasswordEncoder(passwordEncoder);
+        return clientDetailsService;
     }
 
 
@@ -78,6 +80,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+
         endpoints
                 .authenticationManager(authenticationManager)//认证管理器
                 .userDetailsService(userService)
@@ -96,6 +99,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         //令牌增强
         TokenEnhancerChain tokenEnhancerChain = this.getTokenEnhancerChain();
         service.setTokenEnhancer(tokenEnhancerChain);
+
         service.setAccessTokenValiditySeconds(7200); // 令牌默认有效期2小时
         service.setRefreshTokenValiditySeconds(259200); // 刷新令牌默认有效期3天
         return service;
@@ -103,9 +107,11 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
     private TokenEnhancerChain getTokenEnhancerChain() {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+
         List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
         tokenEnhancers.add(jwtAccessTokenConverter);
         tokenEnhancers.add(jwtTokenEnhancer);
+
         tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
         return tokenEnhancerChain;
     }
@@ -113,12 +119,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security){
-//        security.allowFormAuthenticationForClients()				//表单认证（申请令牌）
-//        ;
-        security
-                .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()")
-                .allowFormAuthenticationForClients();
+        security.allowFormAuthenticationForClients()				//表单认证（申请令牌）
+        ;
     }
 
 

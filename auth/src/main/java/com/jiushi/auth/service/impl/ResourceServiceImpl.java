@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * 资源与角色匹配关系管理业务类
  *
- * @author Honghui [wanghonghui_work@163.com] 2021/3/16
+ * @author  [dengmingyang] 2021/3/16
  */
 @Service
 public class ResourceServiceImpl implements ResourceService {

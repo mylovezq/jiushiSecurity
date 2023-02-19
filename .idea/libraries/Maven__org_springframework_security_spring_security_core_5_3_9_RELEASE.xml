@@ -8,7 +8,6 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://D:/repository/org/springframework/security/spring-security-core/5.3.9.RELEASE/spring-security-core-5.3.9.RELEASE-sources.jar!/" />
-      <root url="file://D:/repository/org/springframework/security/spring-security-core/5.4.2" />
     </SOURCES>
   </library>
 </component>
