@@ -13,14 +13,15 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.KeyPair;
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author my deng
@@ -41,10 +42,13 @@ public class TestAuth {
     UserDao userDao;
     @Autowired
     DefaultTokenServices userDaow;
-    @GetMapping("/add")
+    @Autowired
+    private TokenEndpoint tokenEndpoint;
+
+    @PostMapping("/add")
     public String add(){
 
-//将来连接数据库根据账号查询用户信息
+     //将来连接数据库根据账号查询用户信息
         UserDO userDto = userDao.getUserByUsername("zhangsan");
         if(userDto == null){
             //如果用户查不到，返回null，由provider来抛出异常

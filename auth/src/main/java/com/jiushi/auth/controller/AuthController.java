@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,14 +23,20 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/oauth")
 public class AuthController {
 
     private final TokenEndpoint tokenEndpoint;
 
 
     @PostMapping("/token")
-    public Object postAccessToken(Principal principal, @RequestParam Map<String,String> param) throws HttpRequestMethodNotSupportedException {
-        ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = tokenEndpoint.postAccessToken(principal, param);
+    public Object postAccessToken(Principal principal, @RequestParam Map<String,String> param) {
+        ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = null;
+        try {
+            oAuth2AccessTokenResponseEntity = tokenEndpoint.postAccessToken(principal, param);
+        } catch (Exception e) {
+            log.error("授权登录失败",e);
+        }
         OAuth2AccessToken body = oAuth2AccessTokenResponseEntity.getBody();
         return body;
     }

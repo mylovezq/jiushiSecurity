@@ -41,4 +41,14 @@ public class UserDao {
         list.forEach(c -> permissions.add(c.getRoleName()));
         return permissions;
     }
+
+    public UserDO getUserByMobilePassword(String mobile, String password) {
+        String sql = "select id,username,password,fullname,mobile from t_user where mobile = ?";
+        //连接数据库查询用户
+        List<UserDO> list = jdbcTemplate.query(sql, new Object[]{mobile}, new BeanPropertyRowMapper<>(UserDO.class));
+        if(list !=null && list.size()==1){
+            return list.get(0);
+        }
+        return null;
+    }
 }

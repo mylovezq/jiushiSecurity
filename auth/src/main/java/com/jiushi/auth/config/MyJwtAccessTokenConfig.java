@@ -20,7 +20,7 @@ public class MyJwtAccessTokenConfig extends JwtAccessTokenConverter {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = new DefaultOAuth2AccessToken(accessToken);
         JiushiUser user = (JiushiUser) authentication.getPrincipal();
-        // 将用户信息添加到token额外信息中
+        // 将用户信息添加到token额外信息中 需要解析的token
         defaultOAuth2AccessToken.getAdditionalInformation().put("mobile", user.getMobile());
         defaultOAuth2AccessToken.getAdditionalInformation().put("userId", user.getId());
         return super.enhance(defaultOAuth2AccessToken, authentication);

@@ -8,6 +8,7 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://D:/repository/org/springframework/spring-web/5.2.15.RELEASE/spring-web-5.2.15.RELEASE-sources.jar!/" />
+      <root url="jar://D:/repository/org/springframework/spring-web/5.2.15.RELEASE/spring-web-5.2.15.RELEASE.jar!/" />
     </SOURCES>
   </library>
 </component>

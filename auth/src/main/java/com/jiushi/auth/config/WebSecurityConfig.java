@@ -1,5 +1,7 @@
 package com.jiushi.auth.config;
 
+import com.jiushi.auth.config.oauth.custom.config.MobilePwdSecurityConfig;
+import com.jiushi.auth.config.oauth.custom.config.SmsCodeSecurityConfig;
 import com.jiushi.auth.endpoint.user.JiushiUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -14,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.Resource;
+
 /**
  * @author Administrator
  * @version 1.0
@@ -21,7 +25,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    @Resource
+    private MobilePwdSecurityConfig mobilePwdSecurityConfig;
+    @Resource
+    private SmsCodeSecurityConfig smsCodeSecurityConfig;
 
     @Autowired
     private JiushiUserDetailsService jiushiUserDetailsService;
@@ -42,11 +49,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .antMatchers("/rsa/publicKey").permitAll()
-                .antMatchers("/login*").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/rsa/publicKey","/jiushi/add","/login*","/oauth/**").permitAll()
+                .and().authorizeRequests().anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .csrf().disable()
+                .apply(mobilePwdSecurityConfig)
+                .and()
+                .apply(smsCodeSecurityConfig);
 
     }
 
