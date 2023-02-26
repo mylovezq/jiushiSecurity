@@ -3,7 +3,7 @@ package com.jiushi.core.common.model;
 import lombok.Data;
 
 /**
- * @author Administrator
+ * @author dengmingyang
  * @version 1.0
  **/
 @Data

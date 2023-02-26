@@ -16,8 +16,8 @@ import java.util.Objects;
  */
 @Component
 public class AuthUserContext {
-    private static final TransmittableThreadLocal<PayloadDto> JWT_PAYLOAD_CONTEXT = new TransmittableThreadLocal<>();
-    private static final TransmittableThreadLocal<HashMap<String, Collection<String>>> HEADERS = new TransmittableThreadLocal<>();
+    private static final InheritableThreadLocal<PayloadDto> JWT_PAYLOAD_CONTEXT = new InheritableThreadLocal<>();
+    private static final InheritableThreadLocal<HashMap<String, Collection<String>>> HEADERS = new InheritableThreadLocal<>();
 
     /**
      * 获取当前请求的JWT payload

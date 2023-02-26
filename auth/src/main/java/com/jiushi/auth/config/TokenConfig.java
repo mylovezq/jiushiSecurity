@@ -17,7 +17,7 @@ import java.security.KeyPair;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Administrator
+ * @author dengmingyang
  * @version 1.0
  **/
 @Configuration

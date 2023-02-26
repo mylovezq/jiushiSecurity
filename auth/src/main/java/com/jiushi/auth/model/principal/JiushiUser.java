@@ -38,6 +38,10 @@ public class JiushiUser implements UserDetails {
 
   private String mobile;
   /**
+   * 第三方登录类型
+   */
+  private Integer thirdPartyLoginType;
+  /**
    * 权限数据
    */
   private Collection<SimpleGrantedAuthority> authorities;
@@ -48,6 +52,7 @@ public class JiushiUser implements UserDetails {
     this.setPassword(user.getPassword());
     this.setEnabled(true);
     this.setMobile(user.getMobile());
+    this.setThirdPartyLoginType(user.getThirdPartyLoginType());
     if (user.getRoles() != null) {
       authorities = new ArrayList<>();
       user.getRoles().forEach(item -> authorities.add(new SimpleGrantedAuthority(item)));

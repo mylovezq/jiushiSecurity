@@ -1,6 +1,6 @@
 package com.jiushi.auth.model.principal;
 
-import com.jiushi.auth.constant.MessageConstant;
+import com.jiushi.auth.model.constant.MessageConstant;
 import com.jiushi.auth.model.entity.Client;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

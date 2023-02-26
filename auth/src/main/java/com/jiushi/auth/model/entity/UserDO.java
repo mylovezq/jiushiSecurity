@@ -20,4 +20,8 @@ public class UserDO {
   private List<String> roles;
   private String fullname;
   private String mobile;
+  private Integer thirdPartyLoginType;
+  private String openId;
+
+
 }

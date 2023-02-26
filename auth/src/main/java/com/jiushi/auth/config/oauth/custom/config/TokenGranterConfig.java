@@ -3,6 +3,7 @@ package com.jiushi.auth.config.oauth.custom.config;
 
 import com.jiushi.auth.config.oauth.custom.granter.MobilePwdTokenGranter;
 import com.jiushi.auth.config.oauth.custom.granter.SmsCodeTokenGranter;
+import com.jiushi.auth.config.oauth.custom.granter.ThirdPartyTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -127,11 +128,11 @@ public class TokenGranterConfig {
             tokenGranters.add(
                     new MobilePwdTokenGranter(authenticationManager, tokenServices, clientDetailsService,
                             requestFactory));
-//            //第三方授权模式
-//            tokenGranters.add(
-//                    new ThirdPartyTokenGranter(authenticationManager, tokenServices, clientDetailsService,
-//                            requestFactory)
-//            );
+            //第三方授权模式
+            tokenGranters.add(
+                    new ThirdPartyTokenGranter(authenticationManager, tokenServices, clientDetailsService,
+                            requestFactory)
+            );
         }
 
         return tokenGranters;

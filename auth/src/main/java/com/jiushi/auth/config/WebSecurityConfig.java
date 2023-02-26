@@ -2,7 +2,8 @@ package com.jiushi.auth.config;
 
 import com.jiushi.auth.config.oauth.custom.config.MobilePwdSecurityConfig;
 import com.jiushi.auth.config.oauth.custom.config.SmsCodeSecurityConfig;
-import com.jiushi.auth.endpoint.user.JiushiUserDetailsService;
+import com.jiushi.auth.config.oauth.custom.config.ThirdPartySecurityConfig;
+import com.jiushi.auth.service.JiushiUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.annotation.Resource;
 
 /**
- * @author Administrator
+ * @author dengmingyang
  * @version 1.0
  **/
 @Configuration
@@ -29,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private MobilePwdSecurityConfig mobilePwdSecurityConfig;
     @Resource
     private SmsCodeSecurityConfig smsCodeSecurityConfig;
+    @Resource
+    private ThirdPartySecurityConfig thirdPartySecurityConfig;
 
     @Autowired
     private JiushiUserDetailsService jiushiUserDetailsService;
@@ -55,7 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .apply(mobilePwdSecurityConfig)
                 .and()
-                .apply(smsCodeSecurityConfig);
+                .apply(smsCodeSecurityConfig)
+                .and()
+                .apply(thirdPartySecurityConfig);
 
     }
 
@@ -73,10 +78,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(passwordEncoder());
         provider.setHideUserNotFoundExceptions(false);
         return provider;
-    }
-
-    public static void main(String[] args) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        System.out.println(bCryptPasswordEncoder.encode("123"));
     }
 }

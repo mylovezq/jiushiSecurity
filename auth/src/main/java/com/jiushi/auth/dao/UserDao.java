@@ -1,8 +1,7 @@
 package com.jiushi.auth.dao;
 
-import com.jiushi.auth.model.PermissionDto;
-import com.jiushi.auth.model.UserDto;
 import com.jiushi.auth.model.entity.UserDO;
+import com.jiushi.auth.model.principal.PermissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Administrator
+ * @author dengmingyang
  * @version 1.0
  **/
 @Repository
@@ -43,6 +42,15 @@ public class UserDao {
     }
 
     public UserDO getUserByMobilePassword(String mobile, String password) {
+        String sql = "select id,username,password,fullname,mobile from t_user where mobile = ?";
+        //连接数据库查询用户
+        List<UserDO> list = jdbcTemplate.query(sql, new Object[]{mobile}, new BeanPropertyRowMapper<>(UserDO.class));
+        if(list !=null && list.size()==1){
+            return list.get(0);
+        }
+        return null;
+    }
+    public UserDO getUserByMobile(String mobile) {
         String sql = "select id,username,password,fullname,mobile from t_user where mobile = ?";
         //连接数据库查询用户
         List<UserDO> list = jdbcTemplate.query(sql, new Object[]{mobile}, new BeanPropertyRowMapper<>(UserDO.class));

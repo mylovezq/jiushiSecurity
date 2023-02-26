@@ -1,6 +1,7 @@
 package com.jiushi.auth.config.oauth.custom.config;
 
 import org.springframework.beans.BeansException;
+import org.springframework.cloud.openfeign.FeignContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -23,4 +24,11 @@ public class ApplicationContextAwareUtil implements ApplicationContextAware {
         }
         return (T) applicationContext.getBean(name);
     }
+
+    public static <T> T getFeignBean(String beanName, Class<T> tClass) {
+        //我这边主要在gateway用到这两行代码
+        FeignContext feignContext = applicationContext.getBean("feignContext", FeignContext.class);
+        return feignContext.getInstance(beanName, tClass);
+    }
+
 }

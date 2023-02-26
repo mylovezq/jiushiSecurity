@@ -1,16 +1,13 @@
 package com.jiushi.auth.service.impl;
 
-import com.jiushi.auth.constant.RedisConstant;
-import com.jiushi.auth.model.PermissionDto;
+import com.jiushi.auth.model.constant.RedisConstant;
+import com.jiushi.auth.model.principal.PermissionDto;
 import com.jiushi.auth.service.ResourceService;
-import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;

@@ -1,4 +1,4 @@
-package com.jiushi.auth.constant;
+package com.jiushi.auth.model.constant;
 
 /**
  * 消息常量

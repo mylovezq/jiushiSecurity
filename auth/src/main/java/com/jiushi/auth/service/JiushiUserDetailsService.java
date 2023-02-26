@@ -1,6 +1,6 @@
-package com.jiushi.auth.endpoint.user;
+package com.jiushi.auth.service;
 
-import com.jiushi.auth.constant.MessageConstant;
+import com.jiushi.auth.model.constant.MessageConstant;
 import com.jiushi.auth.dao.UserDao;
 import com.jiushi.auth.model.entity.UserDO;
 import com.jiushi.auth.model.principal.JiushiUser;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author Administrator
+ * @author dengmingyang
  * @version 1.0
  **/
 @Service

@@ -1,12 +1,10 @@
-package com.jiushi.auth.util;//package com.jiushi.auth.util;
+//package com.jiushi.auth.util;//package com.jiushi.auth.util;
 //
-//import com.eatthepath.otp.TimeBasedOneTimePasswordGenerator;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.stereotype.Component;
 //
 //import javax.crypto.KeyGenerator;
-//import javax.crypto.SecretKey;
 //import javax.crypto.spec.SecretKeySpec;
 //import java.security.InvalidKeyException;
 //import java.security.Key;
