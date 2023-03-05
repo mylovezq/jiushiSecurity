@@ -20,6 +20,9 @@ public class ThirdPartyAuthenticationToken extends AbstractAuthenticationToken {
    */
   private final Object principal;
 
+  /**
+   * 端的类型
+   */
   private Integer thirdPartyLoginType;
 
   public Integer getThirdPartyLoginType() {

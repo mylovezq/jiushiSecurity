@@ -64,10 +64,14 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     }
 
 
-
+    /**
+     * 设置授权码模式的授权码如何存取
+     * @param dataSource
+     * @return
+     */
     @Bean
     public AuthorizationCodeServices authorizationCodeServices(DataSource dataSource) {
-        return new JdbcAuthorizationCodeServices(dataSource);//设置授权码模式的授权码如何存取
+        return new JdbcAuthorizationCodeServices(dataSource);
     }
 
     @Override
@@ -80,10 +84,6 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 //                .authorizationCodeServices(authorizationCodeServices)//授权码服务
 //                .allowedTokenEndpointRequestMethods(HttpMethod.POST);
         endpoints.tokenGranter(tokenGranter);
-        //Spring security Oauth2自定义check_token返回解析参数（自定义UserAuthenticationConverter）
-        DefaultAccessTokenConverter defaultAccessTokenConverter=new DefaultAccessTokenConverter();
-        defaultAccessTokenConverter.setUserTokenConverter(new JiushiUserAuthenticationConverter());
-        endpoints.accessTokenConverter(defaultAccessTokenConverter);
     }
 
     //令牌管理服务

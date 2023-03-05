@@ -62,7 +62,7 @@ public class ThirdPartyTokenGranter extends AbstractTokenGranter {
     if(StrUtil.isBlank(sessionId)){
       throw new LoginException("sessionId不能为空");
     }
-
+    //构建未授权的 ThirdPartyAuthenticationToken
     Authentication userAuth = new ThirdPartyAuthenticationToken(accountType.getKey(), sessionId);
 
     ((AbstractAuthenticationToken) userAuth).setDetails(parameters);

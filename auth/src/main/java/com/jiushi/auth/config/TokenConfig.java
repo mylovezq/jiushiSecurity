@@ -1,5 +1,6 @@
 package com.jiushi.auth.config;
 
+import cn.hutool.crypto.asymmetric.Sign;
 import com.jiushi.auth.model.principal.JiushiUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -61,7 +62,7 @@ public class  TokenConfig {
         DefaultAccessTokenConverter tokenConverter = new DefaultAccessTokenConverter();
         tokenConverter.setUserTokenConverter(new JiushiUserAuthenticationConverter());
         myJwtAccessTokenConfig.setAccessTokenConverter(tokenConverter);
-
+        myJwtAccessTokenConfig.setKeyPair(keyPair());
         return myJwtAccessTokenConfig;
     }
 

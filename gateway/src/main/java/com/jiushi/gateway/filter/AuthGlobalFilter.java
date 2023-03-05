@@ -41,7 +41,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
       ServerHttpRequest request = exchange.getRequest().mutate().header("user", userStr).build();
       exchange = exchange.mutate().request(request).build();
     } catch (ParseException e) {
-      e.printStackTrace();
+      log.error("解析token异常{}",e);
     }
     return chain.filter(exchange);
   }

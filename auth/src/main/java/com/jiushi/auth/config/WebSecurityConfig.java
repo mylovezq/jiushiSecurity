@@ -66,13 +66,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * =自定义认证器
+     * 自定义认证器
      */
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
         authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
     }
 
+    /**
+     * 其实就是UsernamePasswordAuthenticationToken  的  daoAuthenticationProvider
+     * @return
+     */
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(jiushiUserDetailsService);
