@@ -1,8 +1,7 @@
-package com.jiushi.auth.manage.api.config;
+package com.jiushi.auth.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,5 +12,16 @@ public class ApiConfig {
     private String appid;
 
     private String appsecret;
+
+    private Pay pay;
+
+
+    @Data
+    public static class Pay{
+        private String mchId;
+        private String key;
+        private String callBack;
+
+    }
 
 }

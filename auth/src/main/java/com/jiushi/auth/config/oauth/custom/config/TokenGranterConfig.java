@@ -49,7 +49,6 @@ import java.util.List;
  * @date 2020/7/14 8:38
  */
 @Configuration
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class TokenGranterConfig {
 
     @Autowired

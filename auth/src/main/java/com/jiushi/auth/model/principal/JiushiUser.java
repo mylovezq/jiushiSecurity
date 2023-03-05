@@ -2,7 +2,7 @@ package com.jiushi.auth.model.principal;
 
 
 
-import com.jiushi.auth.model.entity.UserDO;
+import com.jiushi.auth.dao.pojo.UserDO;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

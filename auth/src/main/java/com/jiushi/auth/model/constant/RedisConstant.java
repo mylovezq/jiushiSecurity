@@ -8,4 +8,6 @@ package com.jiushi.auth.model.constant;
 public class RedisConstant {
 
   public static final String RESOURCE_ROLES_MAP = "AUTH:RESOURCE_ROLES_MAP";
+  public static final String WX_SESSION_ID = "WX_SESSION_ID";
+
 }

@@ -2,9 +2,13 @@ package com.jiushi.auth.config.oauth.custom.provider;
 
 import com.jiushi.auth.config.oauth.custom.config.ApplicationContextAwareUtil;
 import com.jiushi.auth.config.oauth.custom.token.ThirdPartyAuthenticationToken;
+import com.jiushi.auth.config.oauth.custom.token.ThirdPartyLoginEnum;
 import com.jiushi.auth.dao.UserDao;
-import com.jiushi.auth.model.entity.UserDO;
+import com.jiushi.auth.dao.pojo.UserDO;
 import com.jiushi.auth.model.principal.JiushiUser;
+import com.jiushi.auth.service.IThirdPartyLogin;
+import com.jiushi.auth.service.impl.ThirdPartyStrategy;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,27 +32,27 @@ public class ThirdPartyAuthenticationProvider implements AuthenticationProvider 
   private StringRedisTemplate redisTemplate = ApplicationContextAwareUtil.getBean("stringRedisTemplate");
   private UserDao userDao = ApplicationContextAwareUtil.getBean("userDao");
 
+  private ThirdPartyStrategy thirdPartyLogin = ApplicationContextAwareUtil.getBean("thirdPartyStrategy");
+
+  @SneakyThrows
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-    ThirdPartyAuthenticationToken thirdPartyAuthenticationToken = (ThirdPartyAuthenticationToken) authentication;
-    String openId = (String) thirdPartyAuthenticationToken.getPrincipal();
-    Map<String, String> details = (Map<String, String>) authentication.getDetails();
 
+    Map<String, String> detailsParametersMap = (Map<String, String>) authentication.getDetails();
+
+    ThirdPartyAuthenticationToken thirdPartyAuthenticationToken = (ThirdPartyAuthenticationToken) authentication;
+    String sessionId = (String) thirdPartyAuthenticationToken.getPrincipal();
     Integer thirdPartyLoginType = thirdPartyAuthenticationToken.getThirdPartyLoginType();
 
-    //根据账户类型+openId获取用户access_token，使用策略模式
-    //通过openId+access_token获取用户个人信息
+    //根据thirdPartyLoginType获取用户access_token，使用策略模式
+    //通过sessionId返回UserDO
+    IThirdPartyLogin thirdPartyLoginService
+            = thirdPartyLogin.getThirdPartyLogin(ThirdPartyLoginEnum.getObjByKey(thirdPartyLoginType).name());
+    UserDO userDO = thirdPartyLoginService.registerOrLogin(sessionId,detailsParametersMap);
 
-    UserDO user = userDao.getUserByMobile("17612520985");
-    List<String> permissions = userDao.findPermissionsByUserId(user.getId());
-    user.setRoles(permissions);
-    //调用三端服务，注册或者更新用户登录信息
-    //封装第三方登录类型
-    user.setThirdPartyLoginType(thirdPartyLoginType);
-    user.setOpenId(openId);
     //返回用户信息构建token
-    UserDetails userDetails = buildUserDetails(user);
+    UserDetails userDetails = buildUserDetails(userDO);
     //授权通过
     return new ThirdPartyAuthenticationToken(userDetails, userDetails.getAuthorities());
   }

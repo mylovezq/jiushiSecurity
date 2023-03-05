@@ -2,7 +2,7 @@ package com.jiushi.auth.service;
 
 import com.jiushi.auth.model.constant.MessageConstant;
 import com.jiushi.auth.dao.UserDao;
-import com.jiushi.auth.model.entity.UserDO;
+import com.jiushi.auth.dao.pojo.UserDO;
 import com.jiushi.auth.model.principal.JiushiUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

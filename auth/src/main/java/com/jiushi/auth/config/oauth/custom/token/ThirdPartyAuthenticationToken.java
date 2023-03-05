@@ -31,11 +31,11 @@ public class ThirdPartyAuthenticationToken extends AbstractAuthenticationToken {
    * 构建未授权的 ThirdPartyAuthenticationToken
    *
    * @param thirdPartyLoginType 三方登录类型
-   * @param openId
+   * @param sessionId
    */
-  public ThirdPartyAuthenticationToken(Integer thirdPartyLoginType, String openId) {
+  public ThirdPartyAuthenticationToken(Integer thirdPartyLoginType, String sessionId) {
     super(null);
-    this.principal = openId;
+    this.principal = sessionId;
     this.thirdPartyLoginType = thirdPartyLoginType;
     setAuthenticated(false);
   }

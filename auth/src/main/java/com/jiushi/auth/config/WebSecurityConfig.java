@@ -50,17 +50,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //安全拦截机制（最重要）
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .antMatchers("/rsa/publicKey","/jiushi/add","/login*","/oauth/**").permitAll()
+                .antMatchers("/rsa/publicKey","/oauth/token","/login/getSessionId").permitAll()
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and()
-                .csrf().disable()
                 .apply(mobilePwdSecurityConfig)
                 .and()
                 .apply(smsCodeSecurityConfig)
                 .and()
-                .apply(thirdPartySecurityConfig);
+                .apply(thirdPartySecurityConfig)
+                ;
 
     }
 

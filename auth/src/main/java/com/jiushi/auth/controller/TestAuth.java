@@ -1,21 +1,16 @@
 package com.jiushi.auth.controller;
 
 
-import com.jiushi.auth.model.constant.MessageConstant;
 import com.jiushi.auth.dao.UserDao;
-import com.jiushi.auth.model.entity.UserDO;
-import com.jiushi.auth.model.principal.JiushiUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.KeyPair;
-import java.util.List;
 
 /**
  * @author my deng

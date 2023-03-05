@@ -24,6 +24,7 @@
       <module name="jiushiSecurity" target="1.8" />
       <module name="micro-common" target="1.8" />
       <module name="order" target="1.8" />
+      <module name="payment" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -35,6 +36,7 @@
       <module name="gateway" options="-parameters" />
       <module name="micro-common" options="-parameters" />
       <module name="order" options="-parameters" />
+      <module name="payment" options="-parameters" />
     </option>
   </component>
 </project>

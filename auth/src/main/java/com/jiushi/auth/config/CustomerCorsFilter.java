@@ -16,7 +16,7 @@ public class CustomerCorsFilter extends org.springframework.web.filter.CorsFilte
     public CustomerCorsFilter() {
         super(configurationSource());
     }
- 
+
     private static UrlBasedCorsConfigurationSource configurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         List<String> allowedHeaders = Arrays.asList("x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest","Access-Control-Allow-Origin","Authorization","authorization");
@@ -29,7 +29,7 @@ public class CustomerCorsFilter extends org.springframework.web.filter.CorsFilte
         corsConfig.setExposedHeaders(exposedHeaders);
         corsConfig.setMaxAge(36000L);
         corsConfig.setAllowCredentials(true);
- 
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
         return source;

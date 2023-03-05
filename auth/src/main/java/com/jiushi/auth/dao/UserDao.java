@@ -1,6 +1,6 @@
 package com.jiushi.auth.dao;
 
-import com.jiushi.auth.model.entity.UserDO;
+import com.jiushi.auth.dao.pojo.UserDO;
 import com.jiushi.auth.model.principal.PermissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

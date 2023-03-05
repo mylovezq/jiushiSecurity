@@ -1,15 +1,13 @@
 package com.jiushi.auth.config.oauth.custom.granter;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.jiushi.auth.config.oauth.custom.config.ApplicationContextAwareUtil;
 import com.jiushi.auth.config.oauth.custom.token.ThirdPartyAuthenticationToken;
 import com.jiushi.auth.config.oauth.custom.token.ThirdPartyLoginEnum;
 import com.jiushi.auth.dao.UserDao;
 import com.jiushi.auth.manage.api.MiniPgmApi;
-import com.jiushi.auth.manage.api.config.ApiConfig;
-import com.jiushi.auth.manage.api.dto.ThirdPartyAccessTokenDTO;
 import lombok.SneakyThrows;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,7 +36,8 @@ public class ThirdPartyTokenGranter extends AbstractTokenGranter {
   private  MiniPgmApi miniPgmApi  = ApplicationContextAwareUtil.getFeignBean("miniPgmApi",MiniPgmApi.class);
 
   private UserDao userDao = ApplicationContextAwareUtil.getBean("userDao");
-  private ApiConfig apiConfig = ApplicationContextAwareUtil.getBean("apiConfig");
+  private StringRedisTemplate stringRedisTemplate = ApplicationContextAwareUtil.getBean("stringRedisTemplate");
+
 
   public ThirdPartyTokenGranter(AuthenticationManager authenticationManager,
       AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
@@ -59,15 +58,12 @@ public class ThirdPartyTokenGranter extends AbstractTokenGranter {
     Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
     //获取授权码  获取第三方类型
     ThirdPartyLoginEnum accountType = getAccountType(parameters);
-    String code = parameters.get("code");
-    if(StrUtil.isBlank(code)){
-      throw new LoginException("授权码为空");
+    String sessionId = parameters.get("sessionId");
+    if(StrUtil.isBlank(sessionId)){
+      throw new LoginException("sessionId不能为空");
     }
-    //调用feign服务，获取用户的openId
-    String openIdStr
-            = miniPgmApi.getSessionKey(apiConfig.getAppid(), apiConfig.getAppsecret(),code,"authorization_code");
-    ThirdPartyAccessTokenDTO thirdPartyAccessTokenDTO = JSONUtil.toBean(openIdStr, ThirdPartyAccessTokenDTO.class);
-    Authentication userAuth = new ThirdPartyAuthenticationToken(accountType.getKey(), thirdPartyAccessTokenDTO.getOpenid());
+
+    Authentication userAuth = new ThirdPartyAuthenticationToken(accountType.getKey(), sessionId);
 
     ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
@@ -84,7 +80,7 @@ public class ThirdPartyTokenGranter extends AbstractTokenGranter {
           .createOAuth2Request(client, tokenRequest);
       return new OAuth2Authentication(storedOAuth2Request, userAuth);
     } else {
-      throw new LoginException("code授权失败: " + code);
+      throw new LoginException("sessionId不合法");
     }
   }
 

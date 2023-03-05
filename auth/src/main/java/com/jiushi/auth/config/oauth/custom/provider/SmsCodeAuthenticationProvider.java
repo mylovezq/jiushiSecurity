@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.jiushi.auth.config.oauth.custom.config.ApplicationContextAwareUtil;
 import com.jiushi.auth.config.oauth.custom.token.SmsCodeAuthenticationToken;
 import com.jiushi.auth.dao.UserDao;
-import com.jiushi.auth.model.entity.UserDO;
+import com.jiushi.auth.dao.pojo.UserDO;
 import com.jiushi.auth.model.principal.JiushiUser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;

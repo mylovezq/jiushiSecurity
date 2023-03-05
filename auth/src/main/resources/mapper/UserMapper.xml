@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiushi.auth.dao.IUserMapper">
+
+    <select id="findPermissionsByUserId" resultType="com.jiushi.auth.model.principal.PermissionDto">
+        SELECT tuser.id,tro.role_name  FROM t_user tuser
+                                                left JOIN t_user_role tur ON tuser.id = tur.user_id
+                                                LEft JOIN t_role_permission trp ON tur.role_id = trp.role_id
+                                                LEft JOIN t_role tro  ON tro.id = tur.role_id
+        WHERE tuser.id  = #{userId}
+    </select>
+</mapper>

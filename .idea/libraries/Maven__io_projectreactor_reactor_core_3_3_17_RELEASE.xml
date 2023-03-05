@@ -8,6 +8,7 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://D:/repository/io/projectreactor/reactor-core/3.3.17.RELEASE/reactor-core-3.3.17.RELEASE-sources.jar!/" />
+      <root url="jar://D:/repository/io/projectreactor/reactor-core/3.3.17.RELEASE/reactor-core-3.3.17.RELEASE.jar!/" />
     </SOURCES>
   </library>
 </component>

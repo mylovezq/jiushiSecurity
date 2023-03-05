@@ -11,8 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @since 2022/11/3 11:11
  */
 
-@SpringBootApplication
 @EnableDiscoveryClient
+@SpringBootApplication
 @EnableFeignClients(basePackages = "com.jiushi.auth.manage.api")
 public class AuthApplication {
     public static void main(String[] args) {
