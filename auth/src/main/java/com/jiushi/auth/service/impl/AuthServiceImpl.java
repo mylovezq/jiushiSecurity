@@ -5,6 +5,8 @@ import com.jiushi.auth.config.ApiConfig;
 import com.jiushi.auth.manage.api.MiniPgmApi;
 import com.jiushi.auth.service.IAuthService;
 
+import com.jiushi.core.common.context.AuthUserContext;
+import com.jiushi.core.common.model.PayloadDto;
 import com.jiushi.core.common.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -34,5 +36,14 @@ public class AuthServiceImpl implements IAuthService {
         stringRedisTemplate.opsForValue().set(WX_SESSION_ID+uuid,sessionId,60, TimeUnit.MINUTES);
         hashMap.put(WX_SESSION_ID,uuid.toString());
         return Result.SUCCESS(hashMap);
+    }
+
+    @Override
+    public Result userinfo(String token, Boolean refresh) {
+        PayloadDto jwtPayload = AuthUserContext.getJwtPayload();
+        if (refresh){
+
+        }
+        return Result.SUCCESS(jwtPayload);
     }
 }

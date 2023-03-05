@@ -22,7 +22,7 @@ public class JiushiUser implements UserDetails {
   /**
    * ID
    */
-  private Long id;
+  private String id;
   /**
    * 用户名
    */
@@ -47,7 +47,7 @@ public class JiushiUser implements UserDetails {
   private Collection<SimpleGrantedAuthority> authorities;
 
   public JiushiUser(UserDO user) {
-    this.setId(user.getId());
+    this.setId(user.getId()+"");
     this.setUsername(user.getUsername());
     this.setPassword(user.getPassword());
     this.setEnabled(true);

@@ -3,10 +3,7 @@ package com.jiushi.auth.controller;
 import com.jiushi.auth.service.IAuthService;
 import com.jiushi.core.common.model.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -22,4 +19,11 @@ public class UserController {
     public Result getSessionId(@RequestParam String code) {
         return authService.getSessionId(code);
     }
+
+    @GetMapping("userinfo")
+    public Result userinfo(@RequestHeader("Authorization") String token,
+                           Boolean refresh){
+        return authService.userinfo(token,refresh);
+    }
+
 }

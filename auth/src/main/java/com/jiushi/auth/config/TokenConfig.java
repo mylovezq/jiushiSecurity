@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -33,27 +34,35 @@ public class  TokenConfig {
         return new JwtTokenStore(jwtAccessTokenConverter()) {
             @Override
             public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
-                Object object = authentication.getPrincipal();
-                if (object instanceof JiushiUser) {
-                    JiushiUser securityUser = (JiushiUser) object;
-                    //用户主键
-                    String userId = securityUser.getId().toString();
-                    String prefix = ":";
-                    String key = new StringBuilder("jiushi")
-                            .append(prefix)
-                            .append(userId)
-                            .toString();
-                    stringRedisTemplate.opsForValue().set(key, token.getValue(), token.getExpiresIn(), TimeUnit.SECONDS);
-                }
+               storeAccessTokenInRedis(token, authentication);
             }
         };
     }
 
+    private void storeAccessTokenInRedis(OAuth2AccessToken token, OAuth2Authentication authentication) {
+        Object object = authentication.getPrincipal();
+        if (object instanceof JiushiUser) {
+            JiushiUser securityUser = (JiushiUser) object;
+            //用户主键
+            String userId = securityUser.getId();
+            String prefix = ":";
+            String key = new StringBuilder("jiushi")
+                    .append(prefix)
+                    .append(userId)
+                    .toString();
+            stringRedisTemplate.opsForValue().set(key, token.getValue(), token.getExpiresIn(), TimeUnit.SECONDS);
+        }
+    }
+
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter jwtAccessTokenConverter = new MyJwtAccessTokenConfig();
-        jwtAccessTokenConverter.setKeyPair(keyPair());
-        return jwtAccessTokenConverter;
+        JwtAccessTokenConverter myJwtAccessTokenConfig = new MyJwtAccessTokenConfig();
+        //配置自定义转换器
+        DefaultAccessTokenConverter tokenConverter = new DefaultAccessTokenConverter();
+        tokenConverter.setUserTokenConverter(new JiushiUserAuthenticationConverter());
+        myJwtAccessTokenConfig.setAccessTokenConverter(tokenConverter);
+
+        return myJwtAccessTokenConfig;
     }
 
     @Bean

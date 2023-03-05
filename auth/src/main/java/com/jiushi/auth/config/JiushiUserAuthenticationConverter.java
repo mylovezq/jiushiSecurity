@@ -11,8 +11,9 @@
  * subcomponent's license, as noted in the LICENSE file.
  */
 
-package com.jiushi.auth.config.oauth.custom.config;
+package com.jiushi.auth.config;
 
+import com.jiushi.auth.model.principal.JiushiUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,7 +34,7 @@ import java.util.Map;
  *
  * @author Yin Dongping
  */
-public class CustomUserAuthenticationConverter implements UserAuthenticationConverter {
+public class JiushiUserAuthenticationConverter implements UserAuthenticationConverter {
 
     private Collection<? extends GrantedAuthority> defaultAuthorities;
 
@@ -64,22 +65,23 @@ public class CustomUserAuthenticationConverter implements UserAuthenticationConv
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {
         Map<String, Object> response = new LinkedHashMap<String, Object>();
         if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
+            JiushiUser jiushiUser = (JiushiUser) authentication.getPrincipal();
             response.put(AUTHORITIES, AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
+            response.put("userId", jiushiUser.getId());
+            response.put("mobile", jiushiUser.getMobile());
         }
         return response;
     }
 
     @Override
     public Authentication extractAuthentication(Map<String, ?> map) {
-        if (map.containsKey(USERNAME)) {
-            Object principal = map.get(USERNAME);
-            Collection<? extends GrantedAuthority> authorities = getAuthorities(map);
-            if (userDetailsService != null) {
-                UserDetails user = userDetailsService.loadUserByUsername((String) map.get(USERNAME));
-                authorities = user.getAuthorities();
-                principal = user;
-            }
-            return new UsernamePasswordAuthenticationToken(principal, "N/A", authorities);
+        if (map.containsKey("userId")) {
+            Collection<? extends GrantedAuthority> authorities = this.getAuthorities(map);
+            JiushiUser jiushiUser = new JiushiUser();
+            jiushiUser.setId(map.get("userId") + "");
+            jiushiUser.setMobile(map.get("mobile") + "");
+            //可以根据不同的端口 来  实现不同的token
+            return new UsernamePasswordAuthenticationToken(jiushiUser, "N/A", authorities);
         }
         return null;
     }

@@ -34,25 +34,17 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
 
     @Autowired
-    private JiushiUserDetailsService userService;
-    @Autowired
     private TokenStore tokenStore;
     @Autowired
     private ClientDetailsService clientDetailsService;
 
-    @Autowired
-    private AuthorizationCodeServices authorizationCodeServices;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtTokenEnhancer jwtTokenEnhancer;
+
 
     @Autowired
     private TokenGranter tokenGranter;
@@ -88,6 +80,10 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 //                .authorizationCodeServices(authorizationCodeServices)//授权码服务
 //                .allowedTokenEndpointRequestMethods(HttpMethod.POST);
         endpoints.tokenGranter(tokenGranter);
+        //Spring security Oauth2自定义check_token返回解析参数（自定义UserAuthenticationConverter）
+        DefaultAccessTokenConverter defaultAccessTokenConverter=new DefaultAccessTokenConverter();
+        defaultAccessTokenConverter.setUserTokenConverter(new JiushiUserAuthenticationConverter());
+        endpoints.accessTokenConverter(defaultAccessTokenConverter);
     }
 
     //令牌管理服务
@@ -108,11 +104,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
     private TokenEnhancerChain getTokenEnhancerChain() {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-
         List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
         tokenEnhancers.add(jwtAccessTokenConverter);
-        tokenEnhancers.add(jwtTokenEnhancer);
-
         tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
         return tokenEnhancerChain;
     }

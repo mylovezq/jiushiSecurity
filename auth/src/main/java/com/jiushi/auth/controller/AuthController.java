@@ -4,6 +4,7 @@ import com.jiushi.auth.manage.api.MiniPgmApi;
 import com.jiushi.auth.service.IAuthService;
 import com.jiushi.core.common.model.Result;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -34,15 +35,19 @@ public class AuthController {
 
 
 
+    @SneakyThrows
     @GetMapping("/token")
     public Result postAccessToken(Principal principal, @RequestParam Map<String,String> param) {
         ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = null;
+        OAuth2AccessToken body = null;
         try {
             oAuth2AccessTokenResponseEntity = tokenEndpoint.postAccessToken(principal, param);
+            body = oAuth2AccessTokenResponseEntity.getBody();
         } catch (Exception e) {
-            log.error("授权登录失败",e);
+            log.error("授权登录失败",e.getLocalizedMessage());
+            throw e;
         }
-        OAuth2AccessToken body = oAuth2AccessTokenResponseEntity.getBody();
+
         return Result.SUCCESS(body);
     }
 
