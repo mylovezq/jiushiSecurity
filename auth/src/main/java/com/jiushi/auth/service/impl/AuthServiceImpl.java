@@ -41,9 +41,7 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public Result userinfo(String token, Boolean refresh) {
         PayloadDto jwtPayload = AuthUserContext.getJwtPayload();
-        if (refresh){
 
-        }
         return Result.SUCCESS(jwtPayload);
     }
 }

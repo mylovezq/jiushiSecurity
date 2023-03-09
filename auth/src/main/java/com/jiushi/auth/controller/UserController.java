@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.security.Principal;
+import java.util.Map;
 
 
 @Slf4j
@@ -14,16 +16,14 @@ import javax.annotation.Resource;
 public class UserController {
     @Resource
     private  IAuthService authService;
+    @Resource
+    private  AuthController authController;
 
     @GetMapping("/getSessionId")
     public Result getSessionId(@RequestParam String code) {
         return authService.getSessionId(code);
     }
 
-    @GetMapping("userinfo")
-    public Result userinfo(@RequestHeader("Authorization") String token,
-                           Boolean refresh){
-        return authService.userinfo(token,refresh);
-    }
+
 
 }

@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,17 +24,14 @@ import java.util.Map;
  * @version：V1.0.0
  */
 @RestController
-@RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/oauth")
 public class AuthController {
+    @Resource
+    private  TokenEndpoint tokenEndpoint;
 
-    private final TokenEndpoint tokenEndpoint;
-
-
-
-
-
+    @Resource
+    private  IAuthService authService;
 
     @SneakyThrows
     @GetMapping("/token")
@@ -50,8 +48,5 @@ public class AuthController {
 
         return Result.SUCCESS(body);
     }
-
-
-
 
 }

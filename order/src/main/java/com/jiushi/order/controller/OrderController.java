@@ -1,15 +1,13 @@
 package com.jiushi.order.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.jiushi.order.model.Order;
+import org.springframework.web.bind.annotation.*;
 import com.jiushi.core.common.model.Result;
 import com.jiushi.order.dao.pojo.CoursewareDO;
 import com.jiushi.order.model.UserDTO;
 
 import com.jiushi.core.common.context.AuthUserContext;
 import com.jiushi.order.service.IOrderService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -52,4 +50,14 @@ public class OrderController {
         return orderService.getCarousel();
     }
 
+    @GetMapping("/myCourseware")
+    public Result myCourseware() {
+        return orderService.myCourseware();
+    }
+
+    @PostMapping("/create")
+    public Result createOrder(@RequestBody Order order) {
+
+        return orderService.createOrder(order);
+    }
 }
